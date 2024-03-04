@@ -23,7 +23,7 @@ for column in df.columns:
     df[column] = scaled_column.flatten()
 
 data = df.to_numpy()
-train_data, test_data = model_selection.train_test_split(data, test_size=0.2, random_state=2)
+train_data, test_data = model_selection.train_test_split(data, test_size=0.4, random_state=2)
 
 train_x = train_data[:, 0:-1]
 train_y = train_data[:, -1]

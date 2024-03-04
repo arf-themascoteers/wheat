@@ -14,11 +14,11 @@ class ANNBase(nn.Module):
         self.device = utils.get_device()
         self.train_ds = train_ds
         self.test_ds = test_ds
-        self.num_epochs = 2000
+        self.num_epochs = 1000
         if utils.is_test():
             self.num_epochs = 3
         self.batch_size = 30000
-        self.lr = 0.001
+        self.lr = 0.0001
 
     def train_model(self):
         if self.TEST:

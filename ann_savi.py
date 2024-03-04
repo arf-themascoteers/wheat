@@ -7,9 +7,9 @@ class ANNSAVI(ANNBase):
     def __init__(self, train_ds, test_ds):
         super().__init__(train_ds, test_ds)
         self.linear = nn.Sequential(
-            nn.Linear(1,5),
-            nn.ReLU(),
-            nn.Linear(5, 1)
+            nn.Linear(1,10),
+            # nn.ReLU(),
+             nn.Linear(10, 1)
         )
         self.L = nn.Parameter(torch.tensor(0.5), requires_grad=False)
 
