@@ -9,7 +9,7 @@ import utils
 class ANNBase(nn.Module):
     def __init__(self, train_ds, test_ds):
         super().__init__()
-        self.verbose = True
+        self.verbose = False
         self.TEST = False
         self.device = utils.get_device()
         self.train_ds = train_ds

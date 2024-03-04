@@ -7,13 +7,7 @@ from soil_dataset import SoilDataset
 
 
 class DSManager:
-    def __init__(self, folds=3, feature_set=None):
-        self.folds = folds
-        self.feature_set = feature_set
-        
-        if self.feature_set is None:
-            self.feature_set = utils.get_all_features()
-        
+    def __init__(self):
         torch.manual_seed(0)
         
         df = pd.read_csv(utils.get_data_file())
@@ -24,8 +18,8 @@ class DSManager:
         L = 0.5
         df["SAVI"] = ((df["B8_convolved"] - df["B4_convolved"]) / (df["B8_convolved"] + df["B4_convolved"] + L)) * (1 + L)
         df["NDVI"] = ((df["B8_convolved"] - df["B4_convolved"]) / (df["B8_convolved"] + df["B4_convolved"]))
-        #cols = ['B4_convolved','B8_convolved',"Ncontent"]
-        cols = ['SAVI',"Ncontent"]
+        cols = ['B4_convolved','B8_convolved',"Ncontent"]
+        #cols = ['SAVI',"Ncontent"]
         df = df[cols]
         df = df.dropna()
         for col in df.columns:
@@ -35,7 +29,7 @@ class DSManager:
         self.data = df.to_numpy()
 
     def get_dss(self):
-        train_data, test_data = model_selection.train_test_split(self.data, test_size=0.2, random_state=2)
+        train_data, test_data = model_selection.train_test_split(self.data, test_size=0.4)
         return SoilDataset(train_data[:,0:-1], train_data[:,-1]), SoilDataset(test_data[:,0:-1], test_data[:,-1])
 
 
