@@ -1,7 +1,6 @@
 import pandas as pd
 from sklearn.model_selection import KFold
 import torch
-from sklearn import model_selection
 from sklearn.preprocessing import MinMaxScaler
 import utils
 from soil_dataset import SoilDataset
@@ -38,33 +37,19 @@ class DSManager:
         kf = KFold(n_splits=self.folds)
         for i, (train_index, test_index) in enumerate(kf.split(self.data)):
             train_data = self.data[train_index]
-            train_data, validation_data = model_selection.train_test_split(train_data, test_size=0.1, random_state=2)
             test_data = self.data[test_index]
             train_x = train_data[:, 0:-1]
             train_y = train_data[:, -1]
             test_x = test_data[:, 0:-1]
             test_y = test_data[:, -1]
-            validation_x = validation_data[:, 0:-1]
-            validation_y = validation_data[:, -1]
 
             yield SoilDataset(train_x, train_y), \
-                SoilDataset(test_x, test_y), \
-                SoilDataset(validation_x, validation_y)
+                SoilDataset(test_x, test_y)
 
     def get_folds(self):
         return self.folds
 
 
 if __name__ == "__main__":
-    from torch.utils.data import DataLoader
-    from soil_dataset import SoilDataset
-    dm = DSManager(3,["ndvi","b1","b4"])
-    for fold_number, (dtrain, dtest, dval) in enumerate(dm.get_k_folds()):
-        dataloader = DataLoader(dtrain, batch_size=500, shuffle=True)
-        for batch_number, (x, y) in enumerate(dataloader):
-            print(x.shape)
-            print(y.shape)
-            break
-        break
-
+    print("hi")
 

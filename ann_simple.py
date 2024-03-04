@@ -3,8 +3,8 @@ from ann_base import ANNBase
 
 
 class ANNSimple(ANNBase):
-    def __init__(self, train_ds, test_ds, validation_ds):
-        super().__init__(train_ds, test_ds, validation_ds)
+    def __init__(self, train_ds, test_ds):
+        super().__init__(train_ds, test_ds)
         self.linear = nn.Sequential(
             nn.Linear(train_ds.x.shape[1],10),
             nn.LeakyReLU(),

@@ -7,14 +7,13 @@ import utils
 
 
 class ANNBase(nn.Module):
-    def __init__(self, train_ds, test_ds, validation_ds):
+    def __init__(self, train_ds, test_ds):
         super().__init__()
         self.verbose = True
         self.TEST = False
         self.device = utils.get_device()
         self.train_ds = train_ds
         self.test_ds = test_ds
-        self.validation_ds = validation_ds
         self.num_epochs = 2000
         if utils.is_test():
             self.num_epochs = 3
@@ -40,13 +39,13 @@ class ANNBase(nn.Module):
 
                 if self.verbose:
                     r2_test = r2_score(y.detach().cpu().numpy(), y_hat.detach().cpu().numpy())
-                    y_all, y_hat_all = self.evaluate(self.validation_ds)
-                    r2_validation = r2_score(y_all, y_hat_all)
+                    y_all, y_hat_all = self.evaluate(self.test_ds)
+                    r2_test = r2_score(y_all, y_hat_all)
                     print(f'Epoch:{epoch} (of {self.num_epochs}), Batch: {batch_number+1} of {total_batch}, '
                           f'Loss:{loss.item():.6f}, '
-                          f'R2_TRAIN: {r2_test:.3f}, R2_Validation: {r2_validation:.3f}', end=""
+                          f'R2_TRAIN: {r2_test:.3f}, R2_test: {r2_test:.3f}', end=""
                           )
-                    self.verbose_after(self.validation_ds)
+                    self.verbose_after(self.test_ds)
                     print("")
 
                 loss.backward()
