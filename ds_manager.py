@@ -1,8 +1,8 @@
 import pandas as pd
-from sklearn.model_selection import KFold
 import torch
 from sklearn.preprocessing import MinMaxScaler
 import utils
+from sklearn import model_selection
 from soil_dataset import SoilDataset
 
 
@@ -34,21 +34,9 @@ class DSManager:
         df = df.sample(frac=1, random_state=1)
         self.data = df.to_numpy()
 
-    def get_k_folds(self):
-        kf = KFold(n_splits=self.folds)
-        for i, (train_index, test_index) in enumerate(kf.split(self.data)):
-            train_data = self.data[train_index]
-            test_data = self.data[test_index]
-            train_x = train_data[:, 0:-1]
-            train_y = train_data[:, -1]
-            test_x = test_data[:, 0:-1]
-            test_y = test_data[:, -1]
-
-            yield SoilDataset(train_x, train_y), \
-                SoilDataset(test_x, test_y)
-
-    def get_folds(self):
-        return self.folds
+    def get_dss(self):
+        train_data, test_data = model_selection.train_test_split(self.data, test_size=0.2, random_state=2)
+        return SoilDataset(train_data[:,0-1], train_data[:,-1]), SoilDataset(test_data[:,0-1], test_data[:,-1])
 
 
 if __name__ == "__main__":
