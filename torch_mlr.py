@@ -6,26 +6,38 @@ from sklearn.metrics import r2_score, root_mean_squared_error
 import utils
 
 
-class ANNBase(nn.Module):
+class TorchMLR(nn.Module):
     def __init__(self, train_ds, test_ds):
         super().__init__()
-        self.verbose = False
         self.TEST = False
         self.device = utils.get_device()
         self.train_ds = train_ds
         self.test_ds = test_ds
-        self.num_epochs = 5000
+        self.num_epochs = 1000
         if utils.is_test():
             self.num_epochs = 3
         self.batch_size = 30000
-        self.lr = 0.001
+        self.lr = 0.0001
+        self.verbose = True
+        self.weight = nn.Parameter(torch.tensor(0.5), requires_grad=True)
+        self.bias = nn.Parameter(torch.tensor(0.5), requires_grad=True)
+        self.L = nn.Parameter(torch.tensor(0.5), requires_grad=False)
+
+    def forward(self, x):
+        b4 = x[:, 0:1]
+        b8 = x[:, 1:2]
+        savi = ((b8 - b4) / (b8 + b4 + self.L)) * (1 + self.L)
+        return savi*self.weight + self.bias
+
+    def verbose_after(self, ds):
+        print(f" L = {self.L.item():.6f}", end="")
 
     def train_model(self):
         if self.TEST:
             return
         self.train()
         self.to(self.device)
-        optimizer = torch.optim.Adam(self.parameters(), lr=self.lr, weight_decay=0.001)
+        optimizer = torch.optim.RMSprop(self.parameters(), lr=self.lr, weight_decay=0.001)
         criterion = torch.nn.MSELoss(reduction='mean')
         dataloader = DataLoader(self.train_ds, batch_size=self.batch_size, shuffle=True)
         total_batch = len(dataloader)
@@ -54,9 +66,6 @@ class ANNBase(nn.Module):
             self.after_epoch(epoch)
 
     def after_epoch(self, epoch):
-        pass
-
-    def verbose_after(self, ds):
         pass
 
     def evaluate(self, ds):
