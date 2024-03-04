@@ -36,7 +36,7 @@ class DSManager:
 
     def get_dss(self):
         train_data, test_data = model_selection.train_test_split(self.data, test_size=0.2, random_state=2)
-        return SoilDataset(train_data[:,0-1], train_data[:,-1]), SoilDataset(test_data[:,0-1], test_data[:,-1])
+        return SoilDataset(train_data[:,0:-1], train_data[:,-1]), SoilDataset(test_data[:,0:-1], test_data[:,-1])
 
 
 if __name__ == "__main__":
