@@ -23,14 +23,12 @@ class DSManager:
         df = df[cols]
 
         L = 0.5
-        df["SAVI"] = ((df["B8_convolved"] - df["B4_convolved"]) / (df["B8_convolved"] + df["B4_convolved"] + L)) * (
-                    1 + L)
+        df["SAVI"] = ((df["B8_convolved"] - df["B4_convolved"]) / (df["B8_convolved"] + df["B4_convolved"] + L)) * (1 + L)
         df["NDVI"] = ((df["B8_convolved"] - df["B4_convolved"]) / (df["B8_convolved"] + df["B4_convolved"]))
-        cols = ['SAVI', 'Ncontent']
+        cols = ['SAVI',"Ncontent"]
         df = df[cols]
-        df = df[cols].dropna()
-
-        self.derived_columns = []
+        df = df.dropna()
+        print(len(df))
         for col in df.columns:
             scaler = MinMaxScaler()
             df[col] = scaler.fit_transform(df[[col]])
