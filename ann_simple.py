@@ -6,9 +6,9 @@ class ANNSimple(ANNBase):
     def __init__(self, train_ds, test_ds, validation_ds):
         super().__init__(train_ds, test_ds, validation_ds)
         self.linear = nn.Sequential(
-            nn.Linear(train_ds.x.shape[1],5),
+            nn.Linear(train_ds.x.shape[1],10),
             nn.LeakyReLU(),
-            nn.Linear(5, 1)
+            nn.Linear(10, 1)
         )
 
     def forward(self,x):

@@ -28,11 +28,11 @@ class DSManager:
         cols = ['SAVI',"Ncontent"]
         df = df[cols]
         df = df.dropna()
-        print(len(df))
         for col in df.columns:
             scaler = MinMaxScaler()
             df[col] = scaler.fit_transform(df[[col]])
-        self.data = df.sample(frac=1).to_numpy()
+        #df = df.sample(frac=1)
+        self.data = df.to_numpy()
 
     def get_k_folds(self):
         kf = KFold(n_splits=self.folds)
