@@ -7,7 +7,7 @@ from soil_dataset import SoilDataset
 
 
 class DSManager:
-    def __init__(self, folds=5, feature_set=None):
+    def __init__(self, folds=3, feature_set=None):
         self.folds = folds
         self.feature_set = feature_set
         
@@ -24,13 +24,13 @@ class DSManager:
         L = 0.5
         df["SAVI"] = ((df["B8_convolved"] - df["B4_convolved"]) / (df["B8_convolved"] + df["B4_convolved"] + L)) * (1 + L)
         df["NDVI"] = ((df["B8_convolved"] - df["B4_convolved"]) / (df["B8_convolved"] + df["B4_convolved"]))
-        cols = ['B8_convolved',"Ncontent"]
+        cols = ['B4_convolved','B8_convolved',"Ncontent"]
         df = df[cols]
         df = df.dropna()
         for col in df.columns:
             scaler = MinMaxScaler()
             df[col] = scaler.fit_transform(df[[col]])
-        #df = df.sample(frac=1)
+        df = df.sample(frac=1)
         self.data = df.to_numpy()
 
     def get_k_folds(self):
