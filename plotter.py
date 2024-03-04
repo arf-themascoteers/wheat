@@ -7,7 +7,7 @@ dm = DSManager()
 
 data = dm.data
 
-data = data[:,[12,13]]
+data = data[:,[7,11]]
 
 sorted_indices = np.argsort(data[:, 0])
 data = data[sorted_indices]

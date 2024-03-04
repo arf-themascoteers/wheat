@@ -1,5 +1,5 @@
 import numpy as np
-from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, r2_score
 import pandas as pd
 from sklearn import model_selection
@@ -31,7 +31,7 @@ test_x = test_data[:, 0:-1]
 test_y = test_data[:, -1]
 print(len(train_data))
 print(len(test_data))
-model_instance = LinearRegression()
+model_instance = RandomForestRegressor()
 model_instance = model_instance.fit(train_x, train_y)
 r2 = model_instance.score(test_x, test_y)
 print(r2)

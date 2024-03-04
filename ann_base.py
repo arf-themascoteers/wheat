@@ -14,7 +14,7 @@ class ANNBase(nn.Module):
         self.device = utils.get_device()
         self.train_ds = train_ds
         self.test_ds = test_ds
-        self.num_epochs = 2000
+        self.num_epochs = 5000
         if utils.is_test():
             self.num_epochs = 3
         self.batch_size = 30000
@@ -37,7 +37,7 @@ class ANNBase(nn.Module):
                 y_hat = y_hat.reshape(-1)
                 loss = criterion(y_hat, y)
 
-                if self.verbose:
+                if self.verbose and epoch%100 == 0:
                     r2_test = r2_score(y.detach().cpu().numpy(), y_hat.detach().cpu().numpy())
                     y_all, y_hat_all = self.evaluate(self.test_ds)
                     r2_test = r2_score(y_all, y_hat_all)
