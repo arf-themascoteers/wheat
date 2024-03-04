@@ -19,6 +19,8 @@ for i in range(10):
     print(f"Learnable: r2={r2:.3f}, rmse={rmse:.3f}, pc={pc:.3f}")
     r2s_learnable.append(r2)
 
+print(r2s_normal)
+print(r2s_learnable)
 
 print("Normal",f"{sum(r2s_normal)/len(r2s_normal)}")
 print("Learnable",f"{sum(r2s_learnable)/len(r2s_learnable)}")

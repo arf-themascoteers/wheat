@@ -13,7 +13,7 @@ class TorchMLR(nn.Module):
         self.device = utils.get_device()
         self.train_ds = train_ds
         self.test_ds = test_ds
-        self.num_epochs = 1000
+        self.num_epochs = 5000
         if utils.is_test():
             self.num_epochs = 3
         self.batch_size = 30000
